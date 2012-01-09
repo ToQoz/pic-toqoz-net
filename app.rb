@@ -2,10 +2,16 @@
 
 require 'sinatra'
 require 'digest/sha1'
+#gem "rmagick", :require => "RMagick"
+require 'RMagick'
 
-set :image_dir, 'public'
-set :host, 'pic.toqoz.net'
-set :logging, false
+configure do
+  set :image_dir, 'public'
+  set :thumb_dir, 'thumb'
+  set :thumb_size, 140
+  set :host, 'pic.toqoz.net'
+  set :logging, false
+end
 
 get '/' do
   @images = Dir[options.image_dir + '/**'].map {|i| File.basename(i)}
@@ -14,8 +20,19 @@ get '/' do
 end
 
 post '/upload.cgi' do
-  data = params['imagedata'][:tempfile].read
+  set_image(params['imagedata'][:tempfile].read)
+end
+
+def set_image(data)
   name = Digest::SHA1.hexdigest(data.to_s)
-  File.open("#{options.image_dir}/#{name}.png", 'w').print(data)
-  "http://#{options.host}/#{name}.png"
+  path = "#{options.image_dir}/#{name}.png"
+  # set /public/xxx.png
+  File.open("#{path}", 'w').print(data)
+
+  # set /public/thumb/xxx.png
+  image = Magick::Image.from_blob(data).last
+  image.resize_to_fit!(options.thumb_size, options.thumb_size)
+  image.write("#{options.image_dir}/thumb/#{name}.png")
+
+  "#{options.host}/#{name}.png"
 end
