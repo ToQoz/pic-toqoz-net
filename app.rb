@@ -4,6 +4,7 @@ require 'sinatra'
 require 'digest/sha1'
 
 set :image_dir, 'public'
+set :host, 'pic.toqoz.net'
 set :logging, false
 
 get '/' do
@@ -16,5 +17,5 @@ post '/upload.cgi' do
   data = params['imagedata'][:tempfile].read
   name = Digest::SHA1.hexdigest(data.to_s)
   File.open("#{options.image_dir}/#{name}.png", 'w').print(data)
-  "http://#{request.host_with_port}/#{name}.png"
+  "http://#{options.host}/#{name}.png"
 end
