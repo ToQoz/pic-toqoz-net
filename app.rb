@@ -32,11 +32,11 @@ end
 def set_image(data)
   name = Digest::SHA1.hexdigest(data.to_s)
   path = "#{options.image_dir}/#{name}.png"
+  image = Magick::Image.from_blob(data).last
   # set /public/xxx.png
-  File.open("#{path}", 'w').print(data)
+  image.write("#{options.image_dir}/#{name}.png")
 
   # set /public/thumb/xxx.png
-  image = Magick::Image.from_blob(data).last
   image.resize_to_fit!(options.thumb_size, options.thumb_size)
   image.write("#{options.image_dir}/thumb/#{name}.png")
 
