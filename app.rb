@@ -14,7 +14,9 @@ configure do
 end
 
 get '/' do
-  @images = Dir[options.image_dir + '/**'].map {|i| File.basename(i)}
+  @images = Dir[options.image_dir + '/**.\png'].map {|i|
+    File.basename(i)
+  }
 
   erb :index
 end
