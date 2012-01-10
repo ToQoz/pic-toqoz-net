@@ -25,6 +25,10 @@ post '/upload.cgi' do
   set_image(params['imagedata'][:tempfile].read)
 end
 
+get '/stylesheets/:name.css' do
+  sass :"stylesheets/#{params[:name]}"
+end
+
 def set_image(data)
   name = Digest::SHA1.hexdigest(data.to_s)
   path = "#{options.image_dir}/#{name}.png"
