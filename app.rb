@@ -2,8 +2,13 @@
 
 require 'sinatra'
 require 'digest/sha1'
-#gem "rmagick", :require => "RMagick"
 require 'RMagick'
+require 'mongoid'
+require './models/image'
+
+Mongoid.configure do |config|
+    config.master = Mongo::Connection.new.db("pic_toqoz_net")
+end
 
 configure do
   set :image_dir, 'public'
@@ -40,5 +45,7 @@ def set_image(data)
   image.resize_to_fit!(options.thumb_size, options.thumb_size)
   image.write("#{options.image_dir}/thumb/#{name}.png")
 
+  # save in mongodb
+  Image.create(name: "#{name}")
   "#{options.host}/#{name}.png"
 end
