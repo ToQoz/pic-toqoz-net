@@ -47,5 +47,5 @@ def set_image(data)
 
   # save in mongodb
   Image.create(name: "#{name}")
-  "#{options.host}/#{name}.png"
+  "http://#{options.host}/#{name}.png"
 end
