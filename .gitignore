@@ -1,3 +1,5 @@
 /logs/*
 /public/*
+!public/thumb
+/public/thumb/*
 /tmp/*
