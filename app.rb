@@ -11,7 +11,7 @@ Mongoid.configure do |config|
 end
 
 configure do
-  set :image_dir, 'public/images'
+  set :image_dir, 'public'
   set :thumb_dir, 'thumb'
   set :thumb_size, 140
   set :host, 'pic.toqoz.net'

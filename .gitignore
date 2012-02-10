@@ -1,7 +1,6 @@
 /.sass-cache/*
 /logs/*
 /tmp/*
-/public/*.png
-/public/thumb/*.png
+/public/images
 /config/deploy.rb
 /Capfile
