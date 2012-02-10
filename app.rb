@@ -11,7 +11,7 @@ Mongoid.configure do |config|
 end
 
 configure do
-  set :image_dir, 'public'
+  set :image_dir, 'public.images'
   set :thumb_dir, 'thumb'
   set :thumb_size, 140
   set :host, 'pic.toqoz.net'
@@ -28,6 +28,12 @@ end
 
 post '/upload.cgi' do
   set_image(params['imagedata'][:tempfile].read)
+end
+
+
+get '/:file.png' do |file|
+  content_type :png
+  send_file "images/#{file}.png"
 end
 
 get '/stylesheets/:name.css' do
