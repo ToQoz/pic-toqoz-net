@@ -3,3 +3,5 @@
 /tmp/*
 /public/*.png
 /public/thumb/*.png
+/config/deploy.rb
+/Capfile
